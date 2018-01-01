@@ -10,6 +10,7 @@ gem 'codestatus'
 
 ```ruby
 puts Codestatus.status('rubygems/octokit')  # => success
+puts Codestatus.status('npm/react')  # => success
 ```
 
 ## Contributing

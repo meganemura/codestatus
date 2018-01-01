@@ -1,12 +1,13 @@
-require "gems"
+require 'rest-client'
 
 module Codestatus
   class RepositoryResolver
-    class RubygemsResolver
+    class NpmResolver
       GITHUB_REPOSITORY_REGEXP = %r{(https|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
+      NPM_REGISTRY_ENDPOINT = 'https://registry.npmjs.org/'.freeze
 
       def resolve(registry:, package:)
-        return unless registry.to_s == 'rubygems'
+        return unless registry.to_s == 'npm'
         @package = package
 
         github_repository
@@ -16,6 +17,7 @@ module Codestatus
 
       private
 
+      # FIXME: Copied from RubygemsResolver
       def github_repository
         result = nil
         urls.each do |url|
@@ -29,28 +31,32 @@ module Codestatus
         result
       end
 
-      def gem_info
-        @info ||= Gems.info(package)
+      def package_info
+        @package_info ||= JSON.parse(client.get("#{NPM_REGISTRY_ENDPOINT}/#{package}"))
       end
 
       def urls
         [
-          source_code_uri,
-          homepage_uri,
-          bug_tracker_uri,
+          bugs_url,
+          repository_url,
+          homepage_url,
         ].compact
       end
 
-      def homepage_uri
-        gem_info['homepage_uri']
+      def bugs_url
+        package_info.dig('bugs', 'url')
       end
 
-      def source_code_uri
-        gem_info['source_code_uri']
+      def homepage_url
+        package_info.dig('homepage')
       end
 
-      def bug_tracker_uri
-        gem_info['bug_tracker_uri']
+      def repository_url
+        package_info.dig('repository', 'url')
+      end
+
+      def client
+        RestClient
       end
     end
   end
