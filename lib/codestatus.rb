@@ -2,6 +2,7 @@ require "codestatus/version"
 require "codestatus/build_status"
 require "codestatus/repository_resolver"
 require "codestatus/repository_resolver/user_defined_resolver"
+require "codestatus/repository_resolver/rubygems_resolver"
 require "codestatus/package_repository"
 require "codestatus/package_repository/github_repository"
 
