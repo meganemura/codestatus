@@ -24,7 +24,7 @@ module Codestatus
         when 'pending' then BuildStatus::PENDING
         when 'success' then BuildStatus::SUCCESS
         when 'error' then BuildStatus::ERROR
-        else BuildStatus::ERROR
+        else BuildStatus::UNDEFINED
         end
       end
 
