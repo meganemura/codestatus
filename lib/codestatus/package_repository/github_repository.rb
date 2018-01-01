@@ -17,15 +17,9 @@ module Codestatus
       # combined status on github
       # https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref
       def status_of_default_branch
-        x = client.combined_status(@repo, default_branch)
+        response = client.combined_status(@repo, default_branch)
 
-        case x[:state]
-        when 'failure' then BuildStatus::FAILURE
-        when 'pending' then BuildStatus::PENDING
-        when 'success' then BuildStatus::SUCCESS
-        when 'error' then BuildStatus::ERROR
-        else BuildStatus::UNDEFINED
-        end
+        BuildStatus.new(sha: response.sha, status: response.state)
       end
 
       def default_branch

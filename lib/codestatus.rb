@@ -17,12 +17,12 @@ module Codestatus
     package_repository = resolver.repository
     if package_repository
       status = package_repository.status
-      success = (status == BuildStatus::SUCCESS)
+      success = (status.status == BuildStatus::SUCCESS)
     else
-      status = 'Repository not found'
-      success = 1
+      status = BuildStatus.new(sha: nil, status: nil)
+      success = false
     end
-    puts status
+    puts status.status
     exit success ? 0 : 1
   end
 end
