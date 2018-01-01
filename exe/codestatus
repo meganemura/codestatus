@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require "codestatus"
-Codestatus.status
+Codestatus::CLI.start(ARGV)
