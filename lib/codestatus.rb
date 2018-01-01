@@ -6,14 +6,15 @@ require "codestatus/package_repository"
 require "codestatus/package_repository/github_repository"
 
 module Codestatus
-  def self.status
-    package_registry = :rubygems
-    package_name = 'apartment'
+  def self.status(package_registry: :rubygems, package_name: 'apartment')
 
     resolver = RepositoryResolver.new(registry: package_registry, package: package_name)
 
     package_repository = resolver.repository
 
-    package_repository.status
+    status = package_repository.status
+    success = (status == BuildStatus::SUCCESS)
+    puts status
+    exit success ? 0 : 1
   end
 end
