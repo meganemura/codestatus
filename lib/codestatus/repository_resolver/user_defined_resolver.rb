@@ -5,6 +5,7 @@ module Codestatus
       def self.definitions
         @definitions ||= {
           'rubygems/apartment': Codestatus::PackageRepository.new(github: 'influitive/apartment'),
+          'rubygems/octokit': Codestatus::PackageRepository.new(github: 'octokit/octokit.rb'),
         }
       end
 

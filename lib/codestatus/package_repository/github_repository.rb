@@ -28,9 +28,12 @@ module Codestatus
         end
       end
 
-      # FIXME
       def default_branch
-        'development'
+        repository['default_branch']
+      end
+
+      def repository
+        @repository ||= client.repository(@repo)
       end
 
       def client
