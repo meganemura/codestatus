@@ -8,9 +8,23 @@ gem 'codestatus'
 
 ## Usage
 
+```console
+# Requires public_repo scope
+$ export CODESTATUS_GITHUB_TOKEN=XXXXXXXXXXXXXXX
+```
+
+```console
+$ codestatus status rubygems/octokit
+success
+$ codestatus status npm/react
+success
+$ codestatus status --registry=npm react
+success
+```
+
 ```ruby
-puts Codestatus.status('rubygems/octokit')  # => success
-puts Codestatus.status('npm/react')  # => success
+puts Codestatus.status(registry: 'rubygems', package: 'octokit').status  # => success
+puts Codestatus.status(registry: 'npm', package: 'react').status         # => success
 ```
 
 ## Contributing
