@@ -3,7 +3,7 @@ require "gems"
 module Codestatus
   class RepositoryResolver
     class RubygemsResolver
-      GITHUB_REPOSITORY_REGEXP = %r{https://github.com/(?<owner>.*)/(?<repo>.*)/?.*}.freeze
+      GITHUB_REPOSITORY_REGEXP = %r{(https|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
 
       def resolve(registry:, package:)
         return unless registry.to_s == 'rubygems'
