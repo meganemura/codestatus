@@ -1,7 +1,6 @@
 module Codestatus
   class RepositoryResolver
     class UserDefinedResolver
-
       def self.definitions
         @definitions ||= {
           'rubygems/apartment': Codestatus::PackageRepository.new(github: 'influitive/apartment'),

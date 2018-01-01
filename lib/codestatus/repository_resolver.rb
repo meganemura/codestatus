@@ -29,6 +29,7 @@ module Codestatus
     def resolver_classes
       @resolver_classes ||= [
         # RubygemsResolver, NpmResolver, ...
+        RepositoryResolver::RubygemsResolver,
         RepositoryResolver::UserDefinedResolver,
       ]
     end
