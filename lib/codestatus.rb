@@ -10,7 +10,7 @@ require "codestatus/package_repository/github_repository"
 
 module Codestatus
   def self.status(registry:, package:)
-    resolver = RepositoryResolver.new(registry: registry, package: package)
+    resolver = PackageResolver.new(registry: registry, package: package)
 
     package_repository = resolver.repository
 

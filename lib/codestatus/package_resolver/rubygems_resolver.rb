@@ -1,7 +1,7 @@
 require "gems"
 
 module Codestatus
-  class RepositoryResolver
+  class PackageResolver
     class RubygemsResolver
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
 

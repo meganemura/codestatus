@@ -1,5 +1,5 @@
 module Codestatus
-  class RepositoryResolver
+  class PackageResolver
     class UserDefinedResolver
       def self.definitions
         @definitions ||= {

@@ -1,5 +1,5 @@
 module Codestatus
-  class RepositoryResolver
+  class PackageResolver
     def initialize(registry:, package:)
       @registry = registry
       @package = package
@@ -28,9 +28,9 @@ module Codestatus
 
     def resolver_classes
       @resolver_classes ||= [
-        RepositoryResolver::RubygemsResolver,
-        RepositoryResolver::NpmResolver,
-        RepositoryResolver::UserDefinedResolver,
+        PackageResolver::RubygemsResolver,
+        PackageResolver::NpmResolver,
+        PackageResolver::UserDefinedResolver,
       ]
     end
   end
