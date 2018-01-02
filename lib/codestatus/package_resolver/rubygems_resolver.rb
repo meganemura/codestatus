@@ -1,7 +1,7 @@
 require "gems"
 
 module Codestatus
-  class RepositoryResolver
+  class PackageResolver
     class RubygemsResolver
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
 
@@ -23,7 +23,7 @@ module Codestatus
           next unless matched
 
           repo = [matched[:owner], matched[:repo]].join('/')
-          result = Codestatus::PackageRepository.new(github: repo)
+          result = Repositories::GitHubRepository.new(repo)
           break
         end
         result

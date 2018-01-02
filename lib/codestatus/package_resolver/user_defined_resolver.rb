@@ -1,10 +1,10 @@
 module Codestatus
-  class RepositoryResolver
+  class PackageResolver
     class UserDefinedResolver
       def self.definitions
         @definitions ||= {
-          'rubygems/apartment': Codestatus::PackageRepository.new(github: 'influitive/apartment'),
-          'rubygems/octokit': Codestatus::PackageRepository.new(github: 'octokit/octokit.rb'),
+          'rubygems/apartment': Repositories::GitHubRepository.new('influitive/apartment'),
+          'rubygems/octokit': Repositories::GitHubRepository.new('octokit/octokit.rb'),
         }
       end
 

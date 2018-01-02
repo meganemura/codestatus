@@ -1,7 +1,7 @@
 require 'rest-client'
 
 module Codestatus
-  class RepositoryResolver
+  class PackageResolver
     class NpmResolver
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
       NPM_REGISTRY_ENDPOINT = 'https://registry.npmjs.org/'.freeze
@@ -25,7 +25,7 @@ module Codestatus
           next unless matched
 
           repo = [matched[:owner], matched[:repo]].join('/')
-          result = Codestatus::PackageRepository.new(github: repo)
+          result = Repositories::GitHubRepository.new(repo)
           break
         end
         result
