@@ -1,5 +1,9 @@
 module Codestatus
   class PackageResolver
+    def self.resolve(registry:, package:)
+      self.new(registry: registry, package: package).repository
+    end
+
     def initialize(registry:, package:)
       @registry = registry
       @package = package
