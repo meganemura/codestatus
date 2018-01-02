@@ -23,7 +23,7 @@ module Codestatus
           next unless matched
 
           repo = [matched[:owner], matched[:repo]].join('/')
-          result = Codestatus::PackageRepository.new(github: repo)
+          result = Repositories::GitHubRepository.new(repo)
           break
         end
         result

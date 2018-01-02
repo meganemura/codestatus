@@ -1,7 +1,7 @@
 require "octokit"
 
 module Codestatus
-  class PackageRepository
+  module Repositories
     class GitHubRepository
       def initialize(slug)
         # 'influitive/apartment'
