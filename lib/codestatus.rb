@@ -1,8 +1,8 @@
 require "codestatus/version"
 require "codestatus/build_status"
 require "codestatus/cli"
-require "codestatus/package_resolver/rubygems_resolver"
-require "codestatus/package_resolver/npm_resolver"
+require "codestatus/package_resolvers/rubygems_resolver"
+require "codestatus/package_resolvers/npm_resolver"
 require "codestatus/repositories/github_repository"
 
 module Codestatus
