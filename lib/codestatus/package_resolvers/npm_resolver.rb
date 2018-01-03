@@ -1,7 +1,7 @@
 require 'rest-client'
 
 module Codestatus
-  class PackageResolvers
+  module PackageResolvers
     class NpmResolver
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
       NPM_REGISTRY_ENDPOINT = 'https://registry.npmjs.org/'.freeze
