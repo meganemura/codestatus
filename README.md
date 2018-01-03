@@ -20,6 +20,8 @@ $ codestatus status npm/react
 success
 $ codestatus status --registry=npm react
 success
+$ codestatus status npm/@atlassian/aui
+success
 ```
 
 ```ruby
