@@ -25,7 +25,7 @@ module Codestatus
       def github_repository
         urls.map { |url|
           matched = GITHUB_REPOSITORY_REGEXP.match(url)
-          next nil unless matched
+          next unless matched
 
           repo = [matched[:owner], matched[:repo]].join('/')
           Repositories::GitHubRepository.new(repo)
@@ -35,7 +35,7 @@ module Codestatus
       def bitbucket_repository
         urls.map { |url|
           matched = BITBUCKET_REPOSITORY_REGEXP.match(url)
-          next nil unless matched
+          next unless matched
 
           repo = [matched[:owner], matched[:repo]].join('/')
           Repositories::BitbucketRepository.new(repo)
