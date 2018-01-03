@@ -7,8 +7,10 @@ require "codestatus/package_resolvers/npm_resolver"
 require "codestatus/repositories/github_repository"
 
 module Codestatus
-  def self.status(registry:, package:)
-    repository = resolver(registry).resolve(package: package)
+  def self.status(repository: nil, registry: nil, package: nil)
+    if !repository && registry && package
+      repository = resolver(registry).resolve(package: package)
+    end
 
     if repository
       repository.status
