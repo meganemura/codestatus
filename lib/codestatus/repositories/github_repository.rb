@@ -5,13 +5,14 @@ module Codestatus
     class GitHubRepository < Base
       def initialize(slug)
         # 'influitive/apartment'
-        @repo = slug
+        @slug = slug
       end
+      attr_reader :slug
 
       # combined status on github
       # https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref
       def status(ref = default_branch)
-        response = client.combined_status(@repo, ref)
+        response = client.combined_status(slug, ref)
 
         BuildStatus.new(sha: response.sha, status: response.state)
       end
@@ -28,7 +29,7 @@ module Codestatus
       end
 
       def repository
-        @repository ||= client.repository(@repo)
+        @repository ||= client.repository(slug)
       end
 
       def client
