@@ -4,6 +4,7 @@ require "codestatus/cli"
 require "codestatus/package_resolvers/base"
 require "codestatus/package_resolvers/rubygems_resolver"
 require "codestatus/package_resolvers/npm_resolver"
+require "codestatus/repositories/base"
 require "codestatus/repositories/github_repository"
 require "codestatus/repositories/bitbucket_repository"
 

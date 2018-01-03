@@ -2,7 +2,7 @@ require 'rest-client'
 
 module Codestatus
   module Repositories
-    class BitbucketRepository
+    class BitbucketRepository < Base
       BITBUCKET_API_ENDPOINT = 'https://api.bitbucket.org/2.0/' #repositories/atlassian/aui
       def initialize(slug)
         # 'atlassian/aui'

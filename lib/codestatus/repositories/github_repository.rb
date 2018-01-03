@@ -2,7 +2,7 @@ require "octokit"
 
 module Codestatus
   module Repositories
-    class GitHubRepository
+    class GitHubRepository < Base
       def initialize(slug)
         # 'influitive/apartment'
         @repo = slug
