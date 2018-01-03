@@ -5,7 +5,18 @@ module Codestatus
     class RubygemsResolver
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
 
-      def resolve(registry:, package:)
+      def self.resolve(registry:, package:)
+        self.new(registry: registry, package: package).resolve
+      end
+
+      def initialize(registry:, package:)
+        @registry = registry
+        @package = package
+      end
+
+      attr_reader :registry, :package
+
+      def resolve
         return unless registry.to_s == 'rubygems'
         @package = package
 

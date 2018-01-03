@@ -6,7 +6,18 @@ module Codestatus
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
       NPM_REGISTRY_ENDPOINT = 'https://registry.npmjs.org/'.freeze
 
-      def resolve(registry:, package:)
+      def self.resolve(registry:, package:)
+        self.new(registry: registry, package: package).resolve
+      end
+
+      def initialize(registry:, package:)
+        @registry = registry
+        @package = package
+      end
+
+      attr_reader :registry, :package
+
+      def resolve
         return unless registry.to_s == 'npm'
         @package = package
 
