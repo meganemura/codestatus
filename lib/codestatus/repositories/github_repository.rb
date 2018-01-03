@@ -16,6 +16,11 @@ module Codestatus
         BuildStatus.new(sha: response.sha, status: response.state)
       end
 
+      # https://github.com/meganemura/codestatus
+      def html_url
+        repository['html_url']
+      end
+
       private
 
       def default_branch

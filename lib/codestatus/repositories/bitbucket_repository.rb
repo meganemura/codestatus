@@ -32,6 +32,11 @@ module Codestatus
 
       attr_reader :slug
 
+      # https://bitbucket.org/atlassian/aui
+      def html_url
+        repository.dig('links', 'html', 'href')
+      end
+
       private
 
       def main_branch
