@@ -10,7 +10,7 @@ module Codestatus
         package_registry = options[:registry]
         package_name = slug
       else
-        package_registry, package_name = slug.split('/')
+        package_registry, package_name = slug.split('/', 2)
       end
 
       status = Codestatus.status(registry: package_registry, package: package_name)
