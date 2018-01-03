@@ -8,6 +8,12 @@ module Codestatus
     PENDING = 'pending'.freeze
     SUCCESS = 'success'.freeze
 
+    # Statuses defined in Bitbucket are mapped into GitHub's status
+    #   STOPPED    => ERROR
+    #   FAILED     => FAILURE
+    #   INPROGRESS => PENDING
+    #   SUCCESSFUL => SUCCESS
+
     STATUSES = [
       ERROR,
       FAILURE,

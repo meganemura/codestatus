@@ -9,4 +9,14 @@ RSpec.describe Codestatus::PackageResolvers::Base do
       end
     end
   end
+
+  describe 'Bitbucket Repository Regexp' do
+    [
+      'git+https://bitbucket.org/atlassian/aui.git'
+    ].each do |uri|
+      it "matches to #{uri}" do
+        expect(described_class::BITBUCKET_REPOSITORY_REGEXP.match?(uri)).to be true
+      end
+    end
+  end
 end
