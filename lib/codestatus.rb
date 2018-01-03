@@ -4,13 +4,14 @@ require "codestatus/cli"
 require "codestatus/package_resolvers/base"
 require "codestatus/package_resolvers/rubygems_resolver"
 require "codestatus/package_resolvers/npm_resolver"
+require "codestatus/repositories/base"
 require "codestatus/repositories/github_repository"
 require "codestatus/repositories/bitbucket_repository"
 
 module Codestatus
   def self.status(repository: nil, registry: nil, package: nil)
     if !repository && registry && package
-      repository = resolver(registry).resolve(package: package)
+      repository = resolver(registry).resolve(package)
     end
 
     if repository
