@@ -19,9 +19,9 @@ module Codestatus
   def self.resolver(registry)
     case registry
     when /rubygems/
-      PackageResolver::RubygemsResolver
+      PackageResolvers::RubygemsResolver
     when /npm/
-      PackageResolver::NpmResolver
+      PackageResolvers::NpmResolver
     end
   end
 end
