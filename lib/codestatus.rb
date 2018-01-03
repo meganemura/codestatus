@@ -5,6 +5,7 @@ require "codestatus/package_resolvers/base"
 require "codestatus/package_resolvers/rubygems_resolver"
 require "codestatus/package_resolvers/npm_resolver"
 require "codestatus/repositories/github_repository"
+require "codestatus/repositories/bitbucket_repository"
 
 module Codestatus
   def self.status(repository: nil, registry: nil, package: nil)
