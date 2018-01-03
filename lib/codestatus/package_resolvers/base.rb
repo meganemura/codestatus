@@ -22,16 +22,13 @@ module Codestatus
       private
 
       def github_repository
-        result = nil
-        urls.each do |url|
+        urls.map { |url|
           matched = GITHUB_REPOSITORY_REGEXP.match(url)
-          next unless matched
+          next nil unless matched
 
           repo = [matched[:owner], matched[:repo]].join('/')
-          result = Repositories::GitHubRepository.new(repo)
-          break
-        end
-        result
+          Repositories::GitHubRepository.new(repo)
+        }.compact.first
       end
 
       def urls
