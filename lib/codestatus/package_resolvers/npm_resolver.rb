@@ -28,11 +28,23 @@ module Codestatus
       end
 
       def package_info
-        @package_info ||= JSON.parse(client.get("#{NPM_REGISTRY_ENDPOINT}/#{package}"))
+        @package_info ||= JSON.parse(client.get(package_uri))
       end
 
       def client
         RestClient
+      end
+
+      def package_uri
+        File.join(NPM_REGISTRY_ENDPOINT, slash_escaped_package)
+      end
+
+      # for scoped package
+      #   For example, to access @atlassian/aui information,
+      #   we must use https://registry.npmjs.org/@atlassian%2Faui,
+      #   not https://registry.npmjs.org/%40atlassian%2Faui.
+      def slash_escaped_package
+        package.gsub('/', CGI.escape('/'))
       end
     end
   end
