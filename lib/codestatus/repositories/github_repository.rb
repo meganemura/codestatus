@@ -3,12 +3,6 @@ require "octokit"
 module Codestatus
   module Repositories
     class GitHubRepository < Base
-      def initialize(slug)
-        # 'influitive/apartment'
-        @slug = slug
-      end
-      attr_reader :slug
-
       # combined status on github
       # https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref
       def status(ref = default_branch)
