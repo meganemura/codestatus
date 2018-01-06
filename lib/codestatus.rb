@@ -10,6 +10,7 @@ require "codestatus/package_resolvers/package_not_found_error"
 require "codestatus/repositories/base"
 require "codestatus/repositories/github_repository"
 require "codestatus/repositories/bitbucket_repository"
+require "codestatus/repositories/repository_not_found_error"
 
 module Codestatus
   def self.status(repository: nil, registry: nil, package: nil)
@@ -25,15 +26,7 @@ module Codestatus
   end
 
   def self.repository(registry:, package:)
-    begin
-      resolver(registry).resolve!(package)
-    rescue PackageResolvers::ResolverNotFoundError
-      abort "#{package}: Resolver for `#{registry}` not found"
-    rescue PackageResolvers::PackageNotFoundError
-      abort "#{package}: Package not found"
-    rescue PackageResolvers::RepositoryNotFoundError
-      abort "#{package}: Repository not found"
-    end
+    resolver(registry).resolve!(package)
   end
 
   def self.resolver(registry)

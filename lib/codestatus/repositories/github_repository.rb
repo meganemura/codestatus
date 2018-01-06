@@ -13,17 +13,22 @@ module Codestatus
 
       # https://github.com/meganemura/codestatus
       def html_url
-        repository['html_url']
+        repository&.dig(:html_url)
       end
 
       private
 
       def default_branch
-        repository['default_branch']
+        repository&.dig(:default_branch)
       end
 
       def repository
-        @repository ||= client.repository(slug)
+        @repository ||= begin
+                          # Sawyer::Resource -> Hash
+                          client.repository(slug).to_hash
+                        rescue Octokit::NotFound
+                          nil
+                        end
       end
 
       def client

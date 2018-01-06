@@ -13,7 +13,8 @@ module Codestatus
         package_registry, package_name = slug.split('/', 2)
       end
 
-      status = Codestatus.status(registry: package_registry, package: package_name)
+      repository = find_repository(package_registry, package_name)
+      status = repository.status
       success = (status.status == BuildStatus::SUCCESS)
 
       if options['show-package-name']
@@ -35,13 +36,29 @@ module Codestatus
         package_registry, package_name = slug.split('/', 2)
       end
 
-      repository = Codestatus.repository(registry: package_registry, package: package_name)
+      repository = find_repository(package_registry, package_name)
 
       if options['show-package-name']
         puts "#{package_name}: #{repository.html_url}"
       else
         puts repository.html_url
       end
+    end
+
+    private
+
+    def find_repository(registry, package)
+      repository = Codestatus.repository(registry: registry, package: package)
+      repository.exist!
+      repository
+    rescue PackageResolvers::ResolverNotFoundError
+      abort "#{package}: Resolver for `#{registry}` not found"
+    rescue PackageResolvers::PackageNotFoundError
+      abort "#{package}: Package not found"
+    rescue PackageResolvers::RepositoryNotFoundError
+      abort "#{package}: Repository not found"
+    rescue Repositories::RepositoryNotFoundError
+      abort "#{package}: Repository not found on the resolved url"
     end
   end
 end
