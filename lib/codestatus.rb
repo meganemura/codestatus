@@ -14,21 +14,25 @@ require "codestatus/repositories/bitbucket_repository"
 module Codestatus
   def self.status(repository: nil, registry: nil, package: nil)
     if !repository && registry && package
-      begin
-        repository = resolver(registry).resolve!(package)
-      rescue PackageResolvers::ResolverNotFoundError
-        abort "#{package}: Resolver for `#{registry}` not found"
-      rescue PackageResolvers::PackageNotFoundError
-        abort "#{package}: Package not found"
-      rescue PackageResolvers::RepositoryNotFoundError
-        abort "#{package}: Repository not found"
-      end
+      repository = repository(registry: registry, package: package)
     end
 
     if repository
       repository.status
     else
       BuildStatus.new(sha: nil, status: nil)
+    end
+  end
+
+  def self.repository(registry:, package:)
+    begin
+      resolver(registry).resolve!(package)
+    rescue PackageResolvers::ResolverNotFoundError
+      abort "#{package}: Resolver for `#{registry}` not found"
+    rescue PackageResolvers::PackageNotFoundError
+      abort "#{package}: Package not found"
+    rescue PackageResolvers::RepositoryNotFoundError
+      abort "#{package}: Repository not found"
     end
   end
 
