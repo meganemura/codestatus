@@ -14,19 +14,25 @@ module Codestatus
       end
 
       def homepage_uri
-        gem_info['homepage_uri']
+        gem_info&.dig('homepage_uri')
       end
 
       def source_code_uri
-        gem_info['source_code_uri']
+        gem_info&.dig('source_code_uri')
       end
 
       def bug_tracker_uri
-        gem_info['bug_tracker_uri']
+        gem_info&.dig('bug_tracker_uri')
       end
 
       def gem_info
-        @info ||= Gems.info(package)
+        @info ||= begin
+                    Gems.info(package)
+                  rescue JSON::ParserError
+                    # When the package is not found on rubygems,
+                    # Gems does try to parse html as json and raise JSON::ParserError :sob:
+                    nil
+                  end
       end
     end
   end
