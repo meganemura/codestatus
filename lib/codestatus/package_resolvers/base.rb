@@ -8,6 +8,10 @@ module Codestatus
         self.new(package).resolve
       end
 
+      def self.resolve!(package)
+        self.new(package).resolve!
+      end
+
       def initialize(package)
         @package = package
       end
@@ -18,6 +22,10 @@ module Codestatus
         detect_repository
       rescue PackageNotFoundError, RepositoryNotFoundError
         # noop
+      end
+
+      def resolve!
+        detect_repository
       end
 
       private
