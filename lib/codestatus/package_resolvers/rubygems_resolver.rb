@@ -3,6 +3,11 @@ require "gems"
 module Codestatus
   module PackageResolvers
     class RubygemsResolver < Base
+
+      def self.match?(registry)
+        /^rubygems$/.match?(registry)
+      end
+
       private
 
       def found?

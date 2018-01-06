@@ -4,6 +4,10 @@ module Codestatus
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
       BITBUCKET_REPOSITORY_REGEXP = %r{(https?|git)://bitbucket.org/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
 
+      def self.match?(registry)
+        raise NotImplementedError
+      end
+
       def self.resolve(package)
         self.new(package).resolve
       end
