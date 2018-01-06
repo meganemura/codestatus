@@ -4,6 +4,8 @@ require "codestatus/cli"
 require "codestatus/package_resolvers/base"
 require "codestatus/package_resolvers/rubygems_resolver"
 require "codestatus/package_resolvers/npm_resolver"
+require "codestatus/package_resolvers/repository_not_found_error"
+require "codestatus/package_resolvers/package_not_found_error"
 require "codestatus/repositories/base"
 require "codestatus/repositories/github_repository"
 require "codestatus/repositories/bitbucket_repository"
@@ -11,7 +13,13 @@ require "codestatus/repositories/bitbucket_repository"
 module Codestatus
   def self.status(repository: nil, registry: nil, package: nil)
     if !repository && registry && package
-      repository = resolver(registry).resolve(package)
+      begin
+        repository = resolver(registry).resolve!(package)
+      rescue PackageResolvers::PackageNotFoundError
+        abort "#{package}: Package not found"
+      rescue PackageResolvers::RepositoryNotFoundError
+        abort "#{package}: Repository not found"
+      end
     end
 
     if repository

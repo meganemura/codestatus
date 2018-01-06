@@ -7,6 +7,10 @@ module Codestatus
 
       private
 
+      def found?
+        package_info
+      end
+
       def urls
         [
           bugs_url,
@@ -16,19 +20,26 @@ module Codestatus
       end
 
       def bugs_url
-        package_info.dig('bugs', 'url')
+        package_info&.dig('bugs', 'url')
       end
 
       def homepage_url
-        package_info.dig('homepage')
+        package_info&.dig('homepage')
       end
 
       def repository_url
-        package_info.dig('repository', 'url')
+        package_info&.dig('repository', 'url')
       end
 
       def package_info
-        @package_info ||= JSON.parse(client.get(package_uri))
+        @package_info ||= request(package_uri)
+      end
+
+      def request(uri)
+        response = client.get(uri)
+        JSON.parse(response)
+      rescue RestClient::NotFound
+        nil
       end
 
       def client

@@ -8,6 +8,10 @@ module Codestatus
         self.new(package).resolve
       end
 
+      def self.resolve!(package)
+        self.new(package).resolve!
+      end
+
       def initialize(package)
         @package = package
       end
@@ -15,12 +19,27 @@ module Codestatus
       attr_reader :package
 
       def resolve
-        @package = package
+        detect_repository
+      rescue PackageNotFoundError, RepositoryNotFoundError
+        # noop
+      end
 
-        github_repository || bitbucket_repository
+      def resolve!
+        detect_repository
       end
 
       private
+
+      def detect_repository
+        raise PackageNotFoundError unless found?
+        repository = github_repository || bitbucket_repository
+        raise RepositoryNotFoundError unless repository
+        repository
+      end
+
+      def found?
+        raise NotImplementedError
+      end
 
       def github_repository
         urls.map { |url|
