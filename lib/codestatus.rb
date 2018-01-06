@@ -26,15 +26,7 @@ module Codestatus
   end
 
   def self.repository(registry:, package:)
-    begin
-      resolver(registry).resolve!(package)
-    rescue PackageResolvers::ResolverNotFoundError
-      abort "#{package}: Resolver for `#{registry}` not found"
-    rescue PackageResolvers::PackageNotFoundError
-      abort "#{package}: Package not found"
-    rescue PackageResolvers::RepositoryNotFoundError
-      abort "#{package}: Repository not found"
-    end
+    resolver(registry).resolve!(package)
   end
 
   def self.resolver(registry)

@@ -18,14 +18,14 @@ module Codestatus
         raise NotImplementedError
       end
 
+      def exist!
+        raise RepositoryNotFoundError unless exist?
+      end
+
       private
 
       def repository
         raise NotImplementedError
-      end
-
-      def exist!
-        raise RepositoryNotFoundError unless exist?
       end
     end
   end
