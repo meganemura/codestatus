@@ -38,6 +38,7 @@ module Codestatus
     resolver
   end
 
+  # TODO: Register resolvers in PackageResolvers::Base.inherited
   def self.resolvers
     @resolvers ||= [
       PackageResolvers::RubygemsResolver,
