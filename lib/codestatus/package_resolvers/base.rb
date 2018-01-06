@@ -17,10 +17,14 @@ module Codestatus
       def resolve
         @package = package
 
-        github_repository || bitbucket_repository
+        detect_repository
       end
 
       private
+
+      def detect_repository
+        github_repository || bitbucket_repository
+      end
 
       def github_repository
         urls.map { |url|
