@@ -10,6 +10,7 @@ require "codestatus/package_resolvers/package_not_found_error"
 require "codestatus/repositories/base"
 require "codestatus/repositories/github_repository"
 require "codestatus/repositories/bitbucket_repository"
+require "codestatus/repositories/repository_not_found_error"
 
 module Codestatus
   def self.status(repository: nil, registry: nil, package: nil)
