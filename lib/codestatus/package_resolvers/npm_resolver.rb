@@ -7,6 +7,10 @@ module Codestatus
 
       private
 
+      def found?
+        package_info
+      end
+
       def urls
         [
           bugs_url,

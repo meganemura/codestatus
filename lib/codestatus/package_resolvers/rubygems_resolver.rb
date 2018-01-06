@@ -5,6 +5,10 @@ module Codestatus
     class RubygemsResolver < Base
       private
 
+      def found?
+        gem_info
+      end
+
       def urls
         [
           source_code_uri,
