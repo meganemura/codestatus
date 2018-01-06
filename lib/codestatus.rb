@@ -5,6 +5,7 @@ require "codestatus/package_resolvers/base"
 require "codestatus/package_resolvers/rubygems_resolver"
 require "codestatus/package_resolvers/npm_resolver"
 require "codestatus/package_resolvers/repository_not_found_error"
+require "codestatus/package_resolvers/resolver_not_found_error"
 require "codestatus/package_resolvers/package_not_found_error"
 require "codestatus/repositories/base"
 require "codestatus/repositories/github_repository"
@@ -15,6 +16,8 @@ module Codestatus
     if !repository && registry && package
       begin
         repository = resolver(registry).resolve!(package)
+      rescue PackageResolvers::ResolverNotFoundError
+        abort "#{package}: Resolver for `#{registry}` not found"
       rescue PackageResolvers::PackageNotFoundError
         abort "#{package}: Package not found"
       rescue PackageResolvers::RepositoryNotFoundError
@@ -30,11 +33,16 @@ module Codestatus
   end
 
   def self.resolver(registry)
-    case registry
-    when /rubygems/
-      PackageResolvers::RubygemsResolver
-    when /npm/
-      PackageResolvers::NpmResolver
-    end
+    resolver = resolvers.detect { |resolver| resolver.match?(registry) }
+    raise PackageResolvers::ResolverNotFoundError unless resolver
+    resolver
+  end
+
+  # TODO: Register resolvers in PackageResolvers::Base.inherited
+  def self.resolvers
+    @resolvers ||= [
+      PackageResolvers::RubygemsResolver,
+      PackageResolvers::NpmResolver,
+    ]
   end
 end

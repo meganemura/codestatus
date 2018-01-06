@@ -5,6 +5,10 @@ module Codestatus
     class NpmResolver < Base
       NPM_REGISTRY_ENDPOINT = 'https://registry.npmjs.org/'.freeze
 
+      def self.match?(registry)
+        /^npm(js(\.org)?)?$/.match?(registry)
+      end
+
       private
 
       def found?

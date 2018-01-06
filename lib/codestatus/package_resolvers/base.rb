@@ -4,6 +4,11 @@ module Codestatus
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
       BITBUCKET_REPOSITORY_REGEXP = %r{(https?|git)://bitbucket.org/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
 
+      # Given registry name is for self class or not
+      def self.match?(registry)
+        raise NotImplementedError
+      end
+
       def self.resolve(package)
         self.new(package).resolve
       end
@@ -37,6 +42,7 @@ module Codestatus
         repository
       end
 
+      # package is found or not in the registry
       def found?
         raise NotImplementedError
       end
@@ -61,6 +67,7 @@ module Codestatus
         }.compact.first
       end
 
+      # candidate urls for detecting repository
       def urls
         raise NotImplementedError
       end
