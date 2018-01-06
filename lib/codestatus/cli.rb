@@ -36,6 +36,7 @@ module Codestatus
       end
 
       repository = Codestatus.repository(registry: package_registry, package: package_name)
+      abort "page not found" unless repository.exist?
 
       if options['show-package-name']
         puts "#{package_name}: #{repository.html_url}"
