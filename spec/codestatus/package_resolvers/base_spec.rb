@@ -1,11 +1,14 @@
 RSpec.describe Codestatus::PackageResolvers::Base do
   describe 'GitHub Repository Regexp' do
     [
-      "https://github.com/angular/angular-cli",
-      "git+https://github.com/angular/angular-cli.git",
-    ].each do |uri|
+      ["https://github.com/angular/angular-cli",         "angular/angular-cli"],
+      ["git+https://github.com/angular/angular-cli.git", "angular/angular-cli"],
+    ].each do |uri, slug|
       it "matches to #{uri}" do
-        expect(described_class::GITHUB_REPOSITORY_REGEXP.match?(uri)).to be true
+        matched = described_class::GITHUB_REPOSITORY_REGEXP.match(uri)
+        expect(matched).to be_truthy
+        repo = matched[:repo].gsub(described_class::REPO_REJECT_REGEXP, '')
+        expect([matched[:owner], repo].join('/')).to eq(slug)
       end
     end
   end

@@ -3,6 +3,7 @@ module Codestatus
     class Base
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
       BITBUCKET_REPOSITORY_REGEXP = %r{(https?|git)://bitbucket.org/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
+      REPO_REJECT_REGEXP = /\.git$/
 
       # Given registry name is for self class or not
       def self.match?(registry)
@@ -52,7 +53,10 @@ module Codestatus
           matched = GITHUB_REPOSITORY_REGEXP.match(url)
           next unless matched
 
-          repo = [matched[:owner], matched[:repo]].join('/')
+          owner = matched[:owner]
+          repo = matched[:repo].gsub(REPO_REJECT_REGEXP, '')
+
+          repo = [owner, repo].join('/')
           Repositories::GitHubRepository.new(repo)
         }.compact.first
       end
@@ -62,7 +66,10 @@ module Codestatus
           matched = BITBUCKET_REPOSITORY_REGEXP.match(url)
           next unless matched
 
-          repo = [matched[:owner], matched[:repo]].join('/')
+          owner = matched[:owner]
+          repo = matched[:repo].gsub(REPO_REJECT_REGEXP, '')
+
+          repo = [owner, repo].join('/')
           Repositories::BitbucketRepository.new(repo)
         }.compact.first
       end
