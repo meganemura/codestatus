@@ -9,6 +9,10 @@ module Codestatus
         /^npm(js(\.org)?)?$/.match?(registry)
       end
 
+      def self.registry_name
+        'npm'
+      end
+
       private
 
       def found?

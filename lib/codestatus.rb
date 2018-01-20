@@ -1,6 +1,7 @@
 require "codestatus/version"
 require "codestatus/build_status"
 require "codestatus/cli"
+require "codestatus/package_entry"
 require "codestatus/package_resolvers/base"
 require "codestatus/package_resolvers/rubygems_resolver"
 require "codestatus/package_resolvers/npm_resolver"
@@ -26,7 +27,7 @@ module Codestatus
   end
 
   def self.repository(registry:, package:)
-    resolver(registry).resolve!(package)
+    resolver(registry).resolve!(package).repository
   end
 
   def self.resolver(registry)

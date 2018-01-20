@@ -18,6 +18,10 @@ module Codestatus
         self.new(package).resolve!
       end
 
+      def self.registry_name
+        raise NotImplementedError
+      end
+
       def initialize(package)
         @package = package
       end
@@ -32,6 +36,10 @@ module Codestatus
 
       def resolve!
         detect_repository
+      end
+
+      def registry_name
+        self.class.registry_name
       end
 
       private
@@ -52,7 +60,8 @@ module Codestatus
         urls.map { |url|
           matched = GITHUB_REPOSITORY_REGEXP.match(url)
           next unless matched
-          Repositories::GitHubRepository.new(build_slug(matched))
+          repository = Repositories::GitHubRepository.new(build_slug(matched))
+          PackageEntry.new(registry: registry_name, repository: repository)
         }.compact.first
       end
 
@@ -60,7 +69,8 @@ module Codestatus
         urls.map { |url|
           matched = BITBUCKET_REPOSITORY_REGEXP.match(url)
           next unless matched
-          Repositories::BitbucketRepository.new(build_slug(matched))
+          repository = Repositories::BitbucketRepository.new(build_slug(matched))
+          PackageEntry.new(registry: registry_name, repository: repository)
         }.compact.first
       end
 
