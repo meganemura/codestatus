@@ -60,8 +60,7 @@ module Codestatus
         urls.map { |url|
           matched = GITHUB_REPOSITORY_REGEXP.match(url)
           next unless matched
-          repository = Repositories::GitHubRepository.new(build_slug(matched))
-          PackageEntry.new(registry: registry_name, repository: repository)
+          PackageEntry.new(registry: registry_name, repository_class: Repositories::GitHubRepository, repository_slug: build_slug(matched))
         }.compact.first
       end
 
@@ -69,8 +68,7 @@ module Codestatus
         urls.map { |url|
           matched = BITBUCKET_REPOSITORY_REGEXP.match(url)
           next unless matched
-          repository = Repositories::BitbucketRepository.new(build_slug(matched))
-          PackageEntry.new(registry: registry_name, repository: repository)
+          PackageEntry.new(registry: registry_name, repository_class: Repositories::BitbucketRepository, repository_slug: build_slug(matched))
         }.compact.first
       end
 
