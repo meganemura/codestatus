@@ -8,6 +8,10 @@ module Codestatus
         /^rubygems$/.match?(registry)
       end
 
+      def self.registry_name
+        'rubygems'
+      end
+
       private
 
       def found?
