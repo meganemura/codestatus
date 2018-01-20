@@ -3,6 +3,7 @@ module Codestatus
     class Base
       GITHUB_REPOSITORY_REGEXP = %r{(https?|git)://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
       BITBUCKET_REPOSITORY_REGEXP = %r{(https?|git)://bitbucket.org/(?<owner>[^/]*)/(?<repo>[^/]*)(\.git)?/?.*}.freeze
+      REPO_REJECT_REGEXP = /\.git$/
 
       # Given registry name is for self class or not
       def self.match?(registry)
@@ -51,9 +52,7 @@ module Codestatus
         urls.map { |url|
           matched = GITHUB_REPOSITORY_REGEXP.match(url)
           next unless matched
-
-          repo = [matched[:owner], matched[:repo]].join('/')
-          Repositories::GitHubRepository.new(repo)
+          Repositories::GitHubRepository.new(build_slug(matched))
         }.compact.first
       end
 
@@ -61,15 +60,22 @@ module Codestatus
         urls.map { |url|
           matched = BITBUCKET_REPOSITORY_REGEXP.match(url)
           next unless matched
-
-          repo = [matched[:owner], matched[:repo]].join('/')
-          Repositories::BitbucketRepository.new(repo)
+          Repositories::BitbucketRepository.new(build_slug(matched))
         }.compact.first
       end
 
       # candidate urls for detecting repository
       def urls
         raise NotImplementedError
+      end
+
+      private
+
+      def build_slug(named_captures)
+        owner = named_captures[:owner]
+        repo = named_captures[:repo].gsub(REPO_REJECT_REGEXP, '')
+
+        [owner, repo].join('/')
       end
     end
   end
